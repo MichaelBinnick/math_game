@@ -2,7 +2,7 @@ class Player
   attr_accessor :name, :lives
 
   def initialize(n)
-    @name = name
+    @name = n
     @lives = 3
   end
 

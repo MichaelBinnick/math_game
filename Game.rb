@@ -1,86 +1,68 @@
+require_relative "Question" 
+require_relative "Player"
+
 class Game
-
-  def initialize(player1, player2)
-    @player_one = player1
-    @player_two = player2
-    @current_round = 0
-    @current_round_answer = 0
-    @current_question = 0
-
+  
+  def initialize
+    
+    @player_one = Player.new('Bob')
+    @player_two = Player.new('Potato')
     random_player = rand(1..10)
     if random_player <= 5
-      random_player = 1
+      @current_player = @player_one
     else
-      random_player = 2
+      @current_player = @player_two
     end
-
-    @current_player = random_player
-
-  end
-
-  def get_answer
-    puts "Current question is: " 
-    puts @current_question
-    puts "Please enter your answer: "
-    player_answer = gets.chomp.to_i
-    puts "Player answer is: "
-    puts player_answer
-    puts " and..."
-
-    if player_answer == @current_round_answer
-      puts "You're correct!"
-    else
-      puts "You're wrong!"
-      puts "Answer is: "
-      puts @current_round_answer
-    end 
-  end
-
-  def generate_question
-    num1 = rand(1..20)
-    num2 = rand(1..20)
-    which_operator = rand(1..4)
-    problem = 0
-
-    # generates problem type based on random selection
-    if which_operator == 1
-      problem = "#{num1} + #{num2}"
-      answer = num1 + num2
-    elsif which_operator == 2
-      problem = "#{num1} - #{num2}"
-      answer = num1 - num2
-    elsif which_operator == 3
-      problem = "#{num1} * #{num2}"
-      answer = num1 * num2
-    else
-      problem = "#{num1} / #{num2}"
-      answer = num1 / num2
-    end
-
-
-    puts "problem: " 
-    puts problem
-    puts "answer: "
-    puts answer
-
   end
 
   def game_loop
-    while (player_one.lives > 0 && player_two.lives > 0) do
-      self.generate_question
 
+    while (@player_one.lives > 0 && @player_two.lives > 0) do
+      
+      # New round
+      puts "----- NEW TURN ------"
 
+      # Create a new Question instance
+      current_question = Question.new
 
+      # Output question to current player
+      puts "Player #{@current_player.name}, what is the answer to #{current_question.problem}?"
+      
+      # Ask current player for input for answer
+      player_answer = gets.chomp.to_i
+
+      # Give answer feedback
+      if player_answer == current_question.answer
+        puts "Player #{@current_player.name}...Good job! #{player_answer} is correct!"
+      else
+        puts "Player #{@current_player.name}...Wrong! You lose a life!"
+        @current_player.lives -= 1
+      end
+
+      # Output score
+      puts "#{@player_one.name}: #{@player_one.lives}/3 vs #{@player_two.name}: #{@player_two.lives}/3"
+      
+      # Switch active player
+      if @current_player == @player_one
+        @current_player = @player_two
+      else
+        @current_player = @player_one
+      end
     end
-  end
 
+    # After game loop ends, determine winner
+    if @player_one.lives == 0
+      winner = @player_two
+    else
+      winner = @player_one
+    end
+
+    # Output winner message
+    puts "Player #{winner.name} wins with a score of #{winner.lives}/3!"
+    puts "----- GAME OVER -----"
+    puts "Good bye!"
+
+  end
 
 end
 
-new_game = Game.new('guy', 'man')
-
-pp new_game
-
-new_game.get_answer
-
-new_game.generate_question
