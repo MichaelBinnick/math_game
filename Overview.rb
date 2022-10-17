@@ -23,22 +23,21 @@ Game
 
 # Holds current_player attribute
 # Holds current_round attribute
+# Holds get_answer method (takes in user input)
 
 # Holds game_loop method(s)
-  # Holds execute_round method
-  # ???Tick up current_round???
-  # Create an instance of Round(current_player, current_round)
-  # Run execute_round on that instance
+  # Create an instance of Question(current_player)
+  # Call get_answer
+  # Check player answer against correct answer (call check_answer)
+  # method output_score: P1: #{player_one.lives}/3 vs P2: #{player_two.lives}/3
   
   
-Round
+Question
 # Generates problems, takes in user I/O, and determines answers
 
 # Holds generate_problem method
 # Holds correct_answer attribute (i.e. correct_answer = 5 + 15)
-# Holds get_answer method (takes in user input)
 # Holds player_answer attribute (is user input)
 # Holds check_answer method (checks player_answer against correct_answer)
 # Holds correct? attribute
 # Holds answer_feedback method (right/wrong)
-# method output_score: P1: #{player_one.lives}/3 vs P2: #{player_two.lives}/3
